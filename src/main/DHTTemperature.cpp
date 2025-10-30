@@ -10,7 +10,7 @@ void DHTTemperature::run() {
 }
 
 void DHTTemperature::read() {
-  TempAndHumidity d = dht_temp.getTempAndHumidity();
+  TempAndHumidity d = dht_temp.readTemperature();
   if (isnan(d.temperature)) {
     Serial.println("Failed to read temperature from DHT");
     return;
