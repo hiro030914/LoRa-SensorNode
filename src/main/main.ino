@@ -25,8 +25,9 @@ void OnTxTimeout(void);
 
 struct SensorPacket {
   uint32_t node_id;
-  char contentName[20];
-  float value;
+  //char contentName[20];
+  float temp_value;
+  float humi_value;
 };
 
 void setup() {
@@ -55,25 +56,15 @@ void loop() {
     humidSensor.read();
 
     SensorPacket packet;
-    SensorPacket test;
     packet.node_id = (uint32_t)(chipid & 0xFFFFFFFF);
-    test.node_id = (uint32_t)(chipid & 0xFFFFFFFF);
 
-    // 温度送信
-    strcpy(packet.contentName, tempSensor.getContentName().c_str());
-    packet.value = tempSensor.getData().toFloat();
+    // 温湿度取得
+    packet.temp_value = tempSensor.getData().toFloat();
+    packet.humi_value = humidSensor.getData().toFloat();
+
+    // パケット送信
     Radio.Send((uint8_t*)&packet, sizeof(packet));
-    Serial.printf("TX -> %s : %.1f°C\n", packet.contentName, packet.value);
-
-    delay(1000);
-
-    // 湿度送信
-    strcpy(packet.contentName, humidSensor.getContentName().c_str());
-    packet.value = humidSensor.getData().toFloat();
-    Radio.Send((uint8_t*)&packet, sizeof(packet));
-    Serial.printf("TX -> %s : %.1f%%\n", packet.contentName, packet.value);
-
-    
+    Serial.printf("TX -> %lu : %.1f°C %.1f%%\n", packet.node_id, packet.temp_value, packet.humi_value);
 
     lora_idle = false;
   }
