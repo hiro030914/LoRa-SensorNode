@@ -2,15 +2,15 @@
 #include <DHTesp.h>
 
 #define DHT_PIN 5
-DHTesp dht;
+DHTesp dht_temp;
 
 void DHTTemperature::run() {
-  dht.setup(DHT_PIN, DHTesp::DHT11);
+  dht_temp.setup(DHT_PIN, DHTesp::DHT11);
   Serial.println("DHT Temperature Sensor started");
 }
 
 void DHTTemperature::read() {
-  TempAndHumidity d = dht.getTempAndHumidity();
+  TempAndHumidity d = dht_temp.getTempAndHumidity();
   if (isnan(d.temperature)) {
     Serial.println("Failed to read temperature from DHT");
     return;
