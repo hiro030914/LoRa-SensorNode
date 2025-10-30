@@ -2,7 +2,7 @@
 #include "Sensor.h"
 #include <Arduino.h>
 
-#define RF_FREQUENCY                915000000
+#define RF_FREQUENCY                925000000
 #define TX_OUTPUT_POWER             14
 #define LORA_BANDWIDTH              0
 #define LORA_SPREADING_FACTOR       7
@@ -55,7 +55,9 @@ void loop() {
     humidSensor.read();
 
     SensorPacket packet;
+    SensorPacket test;
     packet.node_id = (uint32_t)(chipid & 0xFFFFFFFF);
+    test.node_id = (uint32_t)(chipid & 0xFFFFFFFF);
 
     // 温度送信
     strcpy(packet.contentName, tempSensor.getContentName().c_str());
@@ -70,6 +72,8 @@ void loop() {
     packet.value = humidSensor.getData().toFloat();
     Radio.Send((uint8_t*)&packet, sizeof(packet));
     Serial.printf("TX -> %s : %.1f%%\n", packet.contentName, packet.value);
+
+    
 
     lora_idle = false;
   }
