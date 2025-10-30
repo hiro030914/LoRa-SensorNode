@@ -7,8 +7,8 @@ class Sensor {
 public:
   virtual void run() = 0;
   virtual void read() = 0;
-  virtual String getData() = 0;
-  virtual String getContentName() = 0;
+  virtual float getData() = 0;
+  //virtual String getContentName() = 0;
 };
 
 // ---- 温度センサクラス ----
@@ -31,8 +31,8 @@ class DHTHumidity : public Sensor {
 public:
   void run() override;
   void read() override;
-  String getData() override;
-  String getContentName() override;
+  float getData() override;
+  //String getContentName() override;
 
 private:
   float m_data;
