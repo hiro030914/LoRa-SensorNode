@@ -28,6 +28,6 @@ String DHTHumidity::getData() {
   return m_data;
 }
 
-String DHTHumidity::getContentName() {
+/*String DHTHumidity::getContentName() {
   return m_contentName;
-}
+}*/
