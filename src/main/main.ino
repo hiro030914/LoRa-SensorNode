@@ -59,8 +59,8 @@ void loop() {
     packet.node_id = (uint32_t)(chipid & 0xFFFFFFFF);
 
     // 温湿度取得
-    packet.temp_value = tempSensor.getData().toFloat();
-    packet.humi_value = humidSensor.getData().toFloat();
+    packet.temp_value = tempSensor.getData();
+    packet.humi_value = humidSensor.getData();
 
     // パケット送信
     Radio.Send((uint8_t*)&packet, sizeof(packet));
