@@ -16,8 +16,8 @@ class DHTTemperature : public Sensor {
 public:
   void run() override;
   void read() override;
-  String getData() override;
-  String getContentName() override;
+  float getData() override;
+  //float getContentName() override;
 
 private:
   float m_data;
