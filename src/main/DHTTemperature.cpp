@@ -24,7 +24,7 @@ void DHTTemperature::read() {
  // m_contentName = String("/sensor/temp/") + String(m_numberOfSensorData);
 }
 
-String DHTTemperature::getData() {
+float DHTTemperature::getData() {
   return m_data;
 }
 

@@ -24,7 +24,7 @@ void DHTHumidity::read() {
   //m_contentName = String("/sensor/humid/") + String(m_numberOfSensorData);
 }
 
-String DHTHumidity::getData() {
+float DHTHumidity::getData() {
   return m_data;
 }
 
