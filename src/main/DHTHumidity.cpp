@@ -16,12 +16,12 @@ void DHTHumidity::read() {
     return;
   }
 
-  m_data = String(d.humidity, 1);
+  m_data = d.humidity;
   m_numberOfSensorData++;
   if (m_numberOfSensorData >= m_maxSize) m_numberOfSensorData = 0;
 
   // コンテンツ名をICN形式で設定
-  m_contentName = String("/sensor/humid/") + String(m_numberOfSensorData);
+  //m_contentName = String("/sensor/humid/") + String(m_numberOfSensorData);
 }
 
 String DHTHumidity::getData() {

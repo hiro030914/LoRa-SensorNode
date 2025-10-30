@@ -16,18 +16,18 @@ void DHTTemperature::read() {
     return;
   }
 
-  m_data = String(d.temperature, 1);
-  m_numberOfSensorData++;
+  m_data = d.temperature;
+ // m_numberOfSensorData++;
   if (m_numberOfSensorData >= m_maxSize) m_numberOfSensorData = 0;
 
   // コンテンツ名をICN形式で設定
-  m_contentName = String("/sensor/temp/") + String(m_numberOfSensorData);
+ // m_contentName = String("/sensor/temp/") + String(m_numberOfSensorData);
 }
 
 String DHTTemperature::getData() {
   return m_data;
 }
 
-String DHTTemperature::getContentName() {
+/*String DHTTemperature::getContentName() {
   return m_contentName;
-}
+}*/
