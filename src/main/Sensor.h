@@ -20,8 +20,8 @@ public:
   String getContentName() override;
 
 private:
-  String m_data;
-  String m_contentName;
+  float m_data;
+  //String m_contentName;
   const int m_maxSize = 20;
   int m_numberOfSensorData = 0;
 };
@@ -35,8 +35,8 @@ public:
   String getContentName() override;
 
 private:
-  String m_data;
-  String m_contentName;
+  float m_data;
+  //String m_contentName;
   const int m_maxSize = 20;
   int m_numberOfSensorData = 0;
 };
