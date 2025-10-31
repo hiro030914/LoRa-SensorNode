@@ -2,6 +2,8 @@
 #include "Sensor.h"
 #include <Arduino.h>
 
+// LoRaパラメータ設定
+// 固定パラメータのためconstexprによる定義
 constexpr uint32_t RF_FREQUENCY                925000000;  // LoRa周波数
 constexpr int8_t TX_OUTPUT_POWER               14;         // 送信出力(dBm)
 constexpr int LORA_BANDWIDTH                   0;          // 125 kHz
