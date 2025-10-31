@@ -1,5 +1,5 @@
 #include "Sensor.h"
-#include <DHTesp.h>
+#include <DHT.h>
 
 #define DHT_PIN 5
 DHTesp dht_temp;

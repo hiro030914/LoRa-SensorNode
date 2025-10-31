@@ -1,5 +1,5 @@
 #include "Sensor.h"
-#include <DHTesp.h>
+#include <DHT.h>
 
 #define DHT_PIN 5
 DHTesp dht_humi;
@@ -10,7 +10,7 @@ void DHTHumidity::run() {
 }
 
 void DHTHumidity::read() {
-  TempAndHumidity d = dht_humi.getTempAndHumidity();
+  TempAndHumidity d = dht_humi.readHumidity();
   if (isnan(d.humidity)) {
     Serial.println("Failed to read humidity from DHT");
     return;
