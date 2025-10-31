@@ -2,27 +2,28 @@
 #include "Sensor.h"
 #include <Arduino.h>
 
-#define RF_FREQUENCY                925000000
-#define TX_OUTPUT_POWER             14
-#define LORA_BANDWIDTH              0
-#define LORA_SPREADING_FACTOR       7
-#define LORA_CODINGRATE             1
-#define LORA_PREAMBLE_LENGTH        8
+#define RF_FREQUENCY                925000000  // LoRa周波数
+#define TX_OUTPUT_POWER             14         // 送信出力(dBm)
+#define LORA_BANDWIDTH              0          // 125 kHz
+#define LORA_SPREADING_FACTOR       7          // SF7
+#define LORA_CODINGRATE             1          // CR4/5
+#define LORA_PREAMBLE_LENGTH        8          // Preamble length
 #define LORA_FIX_LENGTH_PAYLOAD_ON  false
 #define LORA_IQ_INVERSION_ON        false
 
-static RadioEvents_t RadioEvents;
-bool lora_idle = true;
+static RadioEvents_t RadioEvents;    // イベントハンドラ
+bool lora_idle = true;               // LoRaアイドル状態フラグ
 
-uint64_t chipid = ESP.getEfuseMac();
+uint64_t chipid = ESP.getEfuseMac(); // nodeID取得
 
-// Sensor objects
+// Sensorオブジェクト作成
 DHTTemperature tempSensor;
 DHTHumidity humidSensor;
 
 void OnTxDone(void);
 void OnTxTimeout(void);
 
+// センサデータパケット構造体
 struct SensorPacket {
   uint32_t node_id;
   //char contentName[20];
@@ -34,9 +35,11 @@ void setup() {
   Serial.begin(115200);
   Serial.println("LoRa Node Initialized");
 
+  // 温湿度センサ初期化
   tempSensor.run();
   humidSensor.run();
 
+  // LoRa初期化
   Mcu.begin(HELTEC_BOARD, SLOW_CLK_TPYE);
   RadioEvents.TxDone = OnTxDone;
   RadioEvents.TxTimeout = OnTxTimeout;
@@ -50,8 +53,9 @@ void setup() {
 
 void loop() {
   if (lora_idle) {
-    delay(2000);
+    delay(10000);    // 送信間隔10秒
 
+    // センサデータ読み込み
     tempSensor.read();
     humidSensor.read();
 
@@ -68,14 +72,17 @@ void loop() {
 
     lora_idle = false;
   }
-  Radio.IrqProcess();
+  Radio.IrqProcess();   // 疑似割り込みによる送信完了処理
 }
 
+// loRa送信完了コールバック
 void OnTxDone(void) {
   Serial.println("TX done");
+  Radio.Sleep();
   lora_idle = true;
 }
 
+// loRa送信タイムアウトコールバック
 void OnTxTimeout(void) {
   Radio.Sleep();
   Serial.println("TX timeout");
