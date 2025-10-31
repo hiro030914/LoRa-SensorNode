@@ -2,6 +2,12 @@
 #define INCLUDED_Sensor_h_
 
 #include <Arduino.h>
+#include <DHT.h>
+
+#define DHT_PIN 5
+#define DHT_TYPE DHT11
+
+extern DHT dht;
 
 class Sensor {
 public:
