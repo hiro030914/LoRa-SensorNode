@@ -1,8 +1,5 @@
 #include "Sensor.h"
 #include <DHT.h>
-
-#define DHT_PIN 5
-#define DHT_TYPE DHT11
   
 void DHTHumidity::run() {
   Serial.println("DHT Temperature And Humidity Sensor started");
