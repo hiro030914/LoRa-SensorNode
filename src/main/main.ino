@@ -2,14 +2,14 @@
 #include "Sensor.h"
 #include <Arduino.h>
 
-#define RF_FREQUENCY                925000000  // LoRa周波数
-#define TX_OUTPUT_POWER             14         // 送信出力(dBm)
-#define LORA_BANDWIDTH              0          // 125 kHz
-#define LORA_SPREADING_FACTOR       7          // SF7
-#define LORA_CODINGRATE             1          // CR4/5
-#define LORA_PREAMBLE_LENGTH        8          // Preamble length
-#define LORA_FIX_LENGTH_PAYLOAD_ON  false
-#define LORA_IQ_INVERSION_ON        false
+constexpr uint32_t RF_FREQUENCY                925000000;  // LoRa周波数
+constexpr int8_t TX_OUTPUT_POWER               14;         // 送信出力(dBm)
+constexpr int LORA_BANDWIDTH                   0;          // 125 kHz
+constexpr int LORA_SPREADING_FACTOR            7;          // SF7
+constexpr int LORA_CODINGRATE                  1;          // CR4/5
+constexpr int LORA_PREAMBLE_LENGTH             8;          // Preamble length
+constexpr bool LORA_FIX_LENGTH_PAYLOAD_ON      = false;
+constexpr bool LORA_IQ_INVERSION_ON            = false;
 
 static RadioEvents_t RadioEvents;    // イベントハンドラ
 bool lora_idle = true;               // LoRaアイドル状態フラグ
