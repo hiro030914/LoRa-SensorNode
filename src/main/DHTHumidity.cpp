@@ -2,21 +2,21 @@
 #include <DHT.h>
 
 #define DHT_PIN 5
-DHTesp dht_humi;
+#define DHT_TYPE DHT11
   
 void DHTHumidity::run() {
-  dht_humi.setup(DHT_PIN, DHTesp::DHT11);
-  Serial.println("DHT Humidity Sensor started");
+  Serial.println("DHT Temperature And Humidity Sensor started");
 }
 
 void DHTHumidity::read() {
-  TempAndHumidity d = dht_humi.readHumidity();
-  if (isnan(d.humidity)) {
+
+  m_data = dht.readHumidity();
+
+  if (isnan(m_data)) {
     Serial.println("Failed to read humidity from DHT");
     return;
   }
 
-  m_data = d.humidity;
   /*m_numberOfSensorData++;
   if (m_numberOfSensorData >= m_maxSize) m_numberOfSensorData = 0;
 
