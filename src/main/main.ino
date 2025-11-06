@@ -4,14 +4,15 @@
 
 // LoRaパラメータ設定
 // 固定パラメータのためconstexprによる定義
-constexpr uint32_t RF_FREQUENCY                925000000;  // LoRa周波数
-constexpr int8_t TX_OUTPUT_POWER               14;         // 送信出力(dBm)
-constexpr int LORA_BANDWIDTH                   0;          // 125 kHz
-constexpr int LORA_SPREADING_FACTOR            7;          // SF7
-constexpr int LORA_CODINGRATE                  1;          // CR4/5
-constexpr int LORA_PREAMBLE_LENGTH             8;          // Preamble length
-constexpr bool LORA_FIX_LENGTH_PAYLOAD_ON      = false;
-constexpr bool LORA_IQ_INVERSION_ON            = false;
+constexpr uint32_t RF_FREQUENCY = 925000000;             // LoRa周波数(Hz)
+constexpr int8_t TX_OUTPUT_POWER = 14;                   // 送信出力(dBm)
+constexpr int LORA_BANDWIDTH = 0;                        // 125 kHz
+constexpr int LORA_SPREADING_FACTOR = 7;                 // SF7
+constexpr int LORA_CODINGRATE = 1;                       // CR4/5
+constexpr int LORA_PREAMBLE_LENGTH = 8;                  // プレアンブル長 //同期確認
+constexpr int LORA_SYMBOL_TIMEOUT = 0;                   // シンボルタイムアウト
+constexpr bool LORA_FIX_LENGTH_PAYLOAD_ON = false;       // 可変長ペイロード
+constexpr bool LORA_IQ_INVERSION_ON = false;             // IQ反転オフ
 
 static RadioEvents_t RadioEvents;    // イベントハンドラ
 bool lora_idle = true;               // LoRaアイドル状態フラグ
@@ -47,10 +48,10 @@ void setup() {
   RadioEvents.TxTimeout = OnTxTimeout;
   Radio.Init(&RadioEvents);
   Radio.SetChannel(RF_FREQUENCY);
-  Radio.SetTxConfig(MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH,
-                    LORA_SPREADING_FACTOR, LORA_CODINGRATE,
-                    LORA_PREAMBLE_LENGTH, LORA_FIX_LENGTH_PAYLOAD_ON,
-                    true, 0, 0, LORA_IQ_INVERSION_ON, 3000);
+  Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
+                    LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
+                    LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
+                    0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
 }
 
 void loop() {
