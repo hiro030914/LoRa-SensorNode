@@ -34,6 +34,7 @@ struct SensorPacket {
   float humi_value;
 };
 
+
 void setup() {
   Serial.begin(115200);
   Serial.println("LoRa Node Initialized");
