@@ -14,6 +14,13 @@ constexpr int LORA_SYMBOL_TIMEOUT = 0;                   // シンボルタイ�
 constexpr bool LORA_FIX_LENGTH_PAYLOAD_ON = false;       // 可変長ペイロード
 constexpr bool LORA_IQ_INVERSION_ON = false;             // IQ反転オフ
 
+// デバッグ用 (送信成功確率)
+static uint32_t sendSuccess = 0;
+static uint32_t sendFail = 0;
+unsigned long lastReport = 0;
+uint32_t total = 0;
+
+
 static RadioEvents_t RadioEvents;    // イベントハンドラ
 bool lora_idle = true;               // LoRaアイドル状態フラグ
 
@@ -23,8 +30,9 @@ uint64_t chipid = ESP.getEfuseMac(); // nodeID取得
 DHTTemperature tempSensor;
 DHTHumidity humidSensor;
 
-void OnTxDone(void);
-void OnTxTimeout(void);
+void OnTxDone(void);          // 送信成功コールバック
+void OnTxTimeout(void);       // 送信タイムアウトコールバック
+void printSendStatus(void);   // 送信成功確率出力
 
 // センサデータパケット構造体
 struct SensorPacket {
@@ -77,18 +85,33 @@ void loop() {
     lora_idle = false;
   }
   Radio.IrqProcess();   // 疑似割り込みによる送信完了処理
+
+  // 送信成功確率50回ごとに出力
+  total = sendSuccess + sendFail;
+  if (total != 0 && total % 20 == 0) {
+    printSendStatus();
+  }
+  
 }
 
-// loRa送信完了コールバック
+// 送信完了コールバック
 void OnTxDone(void) {
   Serial.println("TX done");
+  sendSuccess++;      // 送信成功回数
   Radio.Sleep();
   lora_idle = true;
 }
 
-// loRa送信タイムアウトコールバック
+// 送信タイムアウトコールバック
 void OnTxTimeout(void) {
+  sendFail++;        // 送信失敗回数
   Radio.Sleep();
   Serial.println("TX timeout");
   lora_idle = true;
+}
+
+// 送信成功確率出力
+void printSendStatus() {
+  float successRate = (total > 0) ? ((float)sendSuccess / total * 100.0f) : 0.0f;
+  Serial.printf("送信成功確率 : %.1f%%\n", successRate);
 }
