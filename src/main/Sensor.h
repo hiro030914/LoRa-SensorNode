@@ -7,17 +7,16 @@
 // ---- センサ基底クラス ----
 class Sensor {
 public:
-  virtual void run() = 0;               // センサ初期化
   virtual void read() = 0;              // センサデータ読み込み
   virtual float getData() = 0;          // センサデータ取得
 };
 
 // ---- a -----
 
-class DHTSensor : public Sensor {
+class DHTSensor {
 public:
   DHTSensor();
-  void run() override;
+  void run();
   DHT& getDHT();
 
 private:
@@ -29,7 +28,6 @@ private:
 // ---- 派生温度センサクラス ----
 class DHTTemperature : public Sensor {
 public:
-  //void run() override;
   DHTTemperature(DHT& dht_ref);
   void read() override;
   float getData() override;
@@ -42,7 +40,6 @@ private:
 // ---- 派生湿度センサクラス ----
 class DHTHumidity : public Sensor {
 public:
-  //void run() override;
   DHTHumidity(DHT& dht_ref);
   void read() override;
   float getData() override;
