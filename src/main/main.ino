@@ -19,7 +19,7 @@ bool lora_idle = true;               // LoRaアイドル状態フラグ
 
 uint64_t chipid = ESP.getEfuseMac(); // nodeID取得
 
-static uint32_t seq_counter = 0;
+static uint32_t seq_counter = 1;
 
 // Sensorオブジェクト作成
 DHTSensor dhtSensor;
@@ -63,7 +63,7 @@ void setup() {
 
 void loop() {
   if (lora_idle) {
-    delay(1000);    // 送信間隔10秒
+    delay(10000);    // 送信間隔10秒
 
     // センサデータ読み込み
     tempSensor.read();
