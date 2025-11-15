@@ -1,7 +1,7 @@
 #include "Sensor.h"
 #include <DHT.h>
 
-DHTHumidity::DHTTemperature(DHT& dht_ref)
+DHTTemperature::DHTTemperature(DHT& dht_ref)
   : dhtTemp(dht_ref)
 {}
 
