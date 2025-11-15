@@ -19,6 +19,8 @@ bool lora_idle = true;               // LoRaアイドル状態フラグ
 
 uint64_t chipid = ESP.getEfuseMac(); // nodeID取得
 
+static uint32_t seq_counter = 0;
+
 // Sensorオブジェクト作成
 DHTSensor dhtSensor;
 DHTTemperature tempSensor(dhtSensor.getDHT());
@@ -68,18 +70,17 @@ void loop() {
     humidSensor.read();
 
     TxPacket packet;
-    static uint32_t seq_counter = 0;
 
     packet.payload.node_id = (uint32_t)(chipid & 0xFFFFFFFF);
-    packet.seq_no += seq_counter;
+    packet.seq_no = seq_counter++;
 
     // 温湿度取得
-    packet.temp_value = tempSensor.getData();
-    packet.humi_value = humidSensor.getData();
+    packet.payload.temp_value = tempSensor.getData();
+    packet.payload.humi_value = humidSensor.getData();
 
     // パケット送信
     Radio.Send((uint8_t*)&packet, sizeof(packet));
-    Serial.printf("TX -> %lu : %.1f°C %.1f%%\n", packet.node_id, packet.temp_value, packet.humi_value);
+    Serial.printf("TX -> %lu : %.1f°C %.1f%%, %u\n", packet.payload.node_id, packet.payload.temp_value, packet.payload.humi_value, packet.seq_no);
 
     lora_idle = false;
   }
