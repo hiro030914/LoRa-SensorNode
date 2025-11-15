@@ -20,8 +20,9 @@ bool lora_idle = true;               // LoRaアイドル状態フラグ
 uint64_t chipid = ESP.getEfuseMac(); // nodeID取得
 
 // Sensorオブジェクト作成
-DHTTemperature tempSensor;
-DHTHumidity humidSensor;
+DHTSensor dhtSensor;
+DHTTemperature tempSensor(dhtSensor.getDHT());
+DHTHumidity humidSensor(dhtSensor.getDHT());
 
 void OnTxDone(void);          // 送信成功コールバック
 void OnTxTimeout(void);       // 送信タイムアウトコールバック
@@ -33,10 +34,10 @@ struct SensorPacket {
   float humi_value;           // 湿度データ
 };
 
-struct txPacket {
+struct TxPacket {
   uint32_t seq_no;
   SensorPacket payload;
-}
+};
 
 
 void setup() {
@@ -44,8 +45,7 @@ void setup() {
   Serial.println("LoRa Node Initialized");
 
   // 温湿度センサ初期化
-  tempSensor.run();
-  humidSensor.run();
+  dhtSensor.run();
 
   // LoRa初期化
   Mcu.begin(HELTEC_BOARD, SLOW_CLK_TPYE);
