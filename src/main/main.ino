@@ -4,7 +4,7 @@
 
 // LoRaパラメータ設定
 // 固定パラメータのためconstexprによる定義
-constexpr uint32_t RF_FREQUENCY = 925000000;             // LoRa周波数(Hz)
+constexpr uint32_t RF_FREQUENCY = 920600000;             // LoRa周波数(Hz)
 constexpr int8_t TX_OUTPUT_POWER = 10;                   // 送信出力(dBm)
 constexpr int LORA_BANDWIDTH = 0;                        // 125 kHz
 constexpr int LORA_SPREADING_FACTOR = 7;                 // SF7
