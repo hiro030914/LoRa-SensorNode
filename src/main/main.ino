@@ -63,7 +63,7 @@ void setup() {
 
 void loop() {
   if (lora_idle) {
-    delay(10000);    // 送信間隔10秒
+    delay(5000);    // 送信間隔10秒
 
     // センサデータ読み込み
     tempSensor.read();
